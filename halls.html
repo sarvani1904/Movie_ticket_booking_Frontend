@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Hall</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="watching-a-movie.png" type="image/x-icon" />
+    <style>
+        /* Movie-specific background classes */
+        .salaar-bg {
+            background-image: url('https://wallpapercave.com/wp/wp12162350.jpg');
+        }
+        .pushpa-bg {
+            background-image: url('https://wallpapercave.com/wp/wp11700922.jpg');
+        }
+        .gamechanger-bg {
+            background-image: url('https://wallpapercave.com/wp/wp12162352.jpg');
+        }
+    </style>
+    <script>
+        // Add this with your other global variables
+let bookedSeats = {};
+
+// Modify the selectHall function to pass all parameters
+function selectHall(hall, time) {
+    const movie = getQueryParam('movie');
+    location.href = `booking.html?movie=${movie}&hall=${hall}&time=${time}`;
+}
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const movie = getQueryParam('movie');
+            document.getElementById('movie-title').textContent = movie;
+            
+            // Set movie background
+            document.body.className = movie.replace(' ', '-').toLowerCase() + '-bg';
+            
+            // Set movie price
+            let price = 200;
+            if (movie === 'Pushpa 2') price = 250;
+            if (movie === 'Game Changer') price = 300;
+            document.getElementById('movie-price').textContent = '₹' + price;
+        });
+
+        function selectHall(hall, time) {
+            const movie = getQueryParam('movie');
+            location.href = `booking.html?movie=${movie}&hall=${hall}&time=${time}`;
+        }
+    </script>
+</head>
+<body style="color:white ; background-image:url(movie_ticket.jpg) ;background-color: rgba(0, 0, 0, 0.753);">
+    <div class="movie-background"></div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">CineBooking</div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="movies.html">Movies</a>
+                    <a href="#">Offers</a>
+                    <a href="#">Help</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container movie-content">
+        <h1>Select Hall and Showtime for <span id="movie-title"></span></h1>
+        <p>Price: <span id="movie-price"></span></p>
+        
+        <h2>Available Halls</h2>
+        
+        <div class="hall-card">
+            <h3>Hall 1 (Standard)</h3>
+            <div class="time-slot" onclick="selectHall('Hall 1', '10:00 AM')">10:00 AM</div>
+            <div class="time-slot" onclick="selectHall('Hall 1', '2:00 PM')">2:00 PM</div>
+            <div class="time-slot" onclick="selectHall('Hall 1', '6:00 PM')">6:00 PM</div>
+        </div>
+
+        <div class="hall-card">
+            <h3>Hall 2 (Dolby Atmos)</h3>
+            <div class="time-slot" onclick="selectHall('Hall 2', '11:00 AM')">11:00 AM</div>
+            <div class="time-slot" onclick="selectHall('Hall 2', '3:00 PM')">3:00 PM</div>
+            <div class="time-slot" onclick="selectHall('Hall 2', '7:00 PM')">7:00 PM</div>
+        </div>
+
+        <div class="hall-card">
+            <h3>Hall 3 (IMAX)</h3>
+            <div class="time-slot" onclick="selectHall('Hall 3', '9:00 AM')">9:00 AM</div>
+            <div class="time-slot" onclick="selectHall('Hall 3', '1:00 PM')">1:00 PM</div>
+            <div class="time-slot" onclick="selectHall('Hall 3', '5:00 PM')">5:00 PM</div>
+        </div>
+    </div>
+</body>
+</html>

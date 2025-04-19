@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="watching-a-movie.png" type="image/x-icon" />
+    <style>
+        /* Movie-specific background classes */
+        .salaar-bg {
+            background-image: url('https://wallpapercave.com/wp/wp12162350.jpg');
+        }
+        .pushpa-bg {
+            background-image: url('https://wallpapercave.com/wp/wp11700922.jpg');
+        }
+        .gamechanger-bg {
+            background-image: url('https://wallpapercave.com/wp/wp12162352.jpg');
+        }
+    </style>
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const movie = getQueryParam('movie');
+            // Set movie background
+            document.body.className = movie.replace(' ', '-').toLowerCase() + '-bg';
+            
+            const hall = getQueryParam('hall');
+            const time = getQueryParam('time');
+            const seats = getQueryParam('seats');
+            const payment = getQueryParam('payment');
+            
+            let price = 200;
+            if (movie === 'Pushpa 2') price = 250;
+            if (movie === 'Game Changer') price = 300;
+            
+            // Add premium for special halls
+            if (hall === 'Hall 2') price += 30; // Dolby
+            if (hall === 'Hall 3') price += 50; // IMAX
+            
+            const total = seats.split(',').length * price;
+            const ticketId = 'TKT-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+            
+            document.getElementById('confirmation-details').innerHTML = `
+                <h2>Booking Confirmed!</h2>
+                <p>Ticket ID: ${ticketId}</p>
+                <p>Movie: ${movie}</p>
+                <p>Hall: ${hall}</p>
+                <p>Showtime: ${time}</p>
+                <p>Seats: ${seats}</p>
+                <p>Payment Method: ${getPaymentMethodName(payment)}</p>
+                <h3>Total Paid: ₹${total}</h3>
+                <p>Thank you for your booking!</p>
+                <p>A confirmation has been sent to your email.</p>
+            `;
+        });
+
+        function getPaymentMethodName(method) {
+            switch(method) {
+                case 'credit': return 'Credit Card';
+                case 'debit': return 'Debit Card';
+                case 'upi': return 'UPI';
+                case 'netbanking': return 'Net Banking';
+                default: return method;
+            }
+        }
+    </script>
+</head>
+<body style="color:white ; background-size: 1400px 800px; background-image:url(popcorn.jpg) ;background-color: rgba(0, 0, 0, 0.849);">
+    <div class="movie-background"></div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">CineBooking</div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="movies.html">Movies</a>
+                    <a href="#">Offers</a>
+                    <a href="#">Help</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container movie-content">
+        <div class="movie-card" id="confirmation-details"></div>
+        <a href="index.html" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>

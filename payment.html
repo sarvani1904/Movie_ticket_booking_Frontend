@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="watching-a-movie.png" type="image/x-icon" />
+    <style>
+        /* Movie-specific background classes */
+        .salaar-bg {
+            background-image: url('https://wallpapercave.com/wp/wp12162350.jpg');
+        }
+        .pushpa-bg {
+            background-image: url('https://wallpapercave.com/wp/wp11700922.jpg');
+        }
+        .gamechanger-bg {
+            background-image: url('https://wallpapercave.com/wp/wp12162352.jpg');
+        }
+    </style>
+    <script>
+        let selectedPayment = null;
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const movie = getQueryParam('movie');
+            // Set movie background
+            document.body.className = movie.replace(' ', '-').toLowerCase() + '-bg';
+            
+            const hall = getQueryParam('hall');
+            const time = getQueryParam('time');
+            const seats = getQueryParam('seats');
+            
+            let price = 200;
+            if (movie === 'Pushpa 2') price = 250;
+            if (movie === 'Game Changer') price = 300;
+            
+            // Add premium for special halls
+            if (hall === 'Hall 2') price += 30; // Dolby
+            if (hall === 'Hall 3') price += 50; // IMAX
+            
+            const total = seats.split(',').length * price;
+            
+            document.getElementById('booking-summary').innerHTML = `
+                <h3>Booking Summary</h3>
+                <p>Movie: ${movie}</p>
+                <p>Hall: ${hall}</p>
+                <p>Time: ${time}</p>
+                <p>Seats: ${seats}</p>
+                <p>Total: ₹${total}</p>
+            `;
+        });
+
+        function selectPayment(method) {
+            selectedPayment = method;
+            
+            // Hide all payment details
+            document.querySelectorAll('.payment-details').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Remove selected class from all methods
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Show selected method and add class
+            document.getElementById(`${method}-details`).style.display = 'block';
+            event.currentTarget.classList.add('selected');
+        }
+
+        function confirmPayment() {
+            if (!selectedPayment) {
+                alert('Please select a payment method');
+                return;
+            }
+            
+            // Basic validation
+            let isValid = true;
+            if (selectedPayment === 'credit' || selectedPayment === 'debit') {
+                const prefix = selectedPayment;
+                if (!document.getElementById(`${prefix}-number`).value) isValid = false;
+                if (!document.getElementById(`${prefix}-name`).value) isValid = false;
+                if (!document.getElementById(`${prefix}-expiry`).value) isValid = false;
+                if (!document.getElementById(`${prefix}-cvv`).value) isValid = false;
+            } else if (selectedPayment === 'upi') {
+                if (!document.getElementById('upi-id').value) isValid = false;
+            } else if (selectedPayment === 'netbanking') {
+                if (!document.getElementById('bank').value) isValid = false;
+            }
+            
+            if (!isValid) {
+                alert('Please fill all required payment details');
+                return;
+            }
+            
+            // Proceed to confirmation
+            const movie = getQueryParam('movie');
+            const hall = getQueryParam('hall');
+            const time = getQueryParam('time');
+            const seats = getQueryParam('seats');
+            
+            location.href = `confirmation.html?movie=${movie}&hall=${hall}&time=${time}&seats=${seats}&payment=${selectedPayment}`;
+        }
+    </script>
+</head>
+<body   style="color:white ; background-image:url(movie_ticket.jpg) ;background-color: rgba(255, 255, 255, 0.121);">
+    <div class="movie-background"></div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">CineBooking</div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="movies.html">Movies</a>
+                    <a href="#">Offers</a>
+                    <a href="#">Help</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div  class="container movie-content">
+        <div class="movie-card" id="booking-summary"></div>
+        
+        <h1>Select Payment Method</h1>
+        
+        <div class="payment-method" onclick="selectPayment('credit')">
+            <h3>Credit Card</h3>
+        </div>
+        <div class="payment-details" id="credit-details">
+            <input type="text" id="credit-number" placeholder="Card Number">
+            <input type="text" id="credit-name" placeholder="Cardholder Name">
+            <input type="text" id="credit-expiry" placeholder="MM/YY">
+            <input type="text" id="credit-cvv" placeholder="CVV">
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment('debit')">
+            <h3>Debit Card</h3>
+        </div>
+        <div class="payment-details" id="debit-details">
+            <input type="text" id="debit-number" placeholder="Card Number">
+            <input type="text" id="debit-name" placeholder="Cardholder Name">
+            <input type="text" id="debit-expiry" placeholder="MM/YY">
+            <input type="text" id="debit-cvv" placeholder="CVV">
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment('upi')">
+            <h3>UPI</h3>
+        </div>
+        <div class="payment-details" id="upi-details">
+            <input type="text" id="upi-id" placeholder="UPI ID">
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment('netbanking')">
+            <h3>Net Banking</h3>
+        </div>
+        <div class="payment-details" id="netbanking-details">
+            <select id="bank">
+                <option value="">Select Bank</option>
+                <option value="sbi">State Bank of India</option>
+                <option value="hdfc">HDFC Bank</option>
+                <option value="icici">ICICI Bank</option>
+                <option value="axis">Axis Bank</option>
+            </select>
+        </div>
+        <button class="btn" onclick="confirmPayment()">Proceed to Payment</button>
+        
+        <!-- <button class="btn" onclick="confirmPayment()">Confirm Payment</button> -->
+    </div>
+</body>
+</html>

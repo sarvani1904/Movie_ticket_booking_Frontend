@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Movie</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="watching-a-movie.png" type="image/x-icon" />
+    <style>
+        /* Movie-specific background classes */
+        .salaar-bg {
+            background-image: url('https://wallpapercave.com/wp/wp12162350.jpg');
+        }
+        .pushpa-bg {
+            background-image: url('https://wallpapercave.com/wp/wp11700922.jpg');
+        }
+        .gamechanger-bg {
+            background-image: url('https://wallpapercave.com/wp/wp12162352.jpg');
+        }
+    </style>
+</head>
+<body style="color:white ; background-image:url(movie_ticket.jpg) ;background-color: rgba(255, 255, 255, 0.121);">
+    <div class="movie-background salaar-bg"></div>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">CineBooking</div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="movies.html">Movies</a>
+                    <a href="#">Offers</a>
+                    <a href="#">Help</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container movie-content">
+        <h1>Select Movie</h1>
+        
+        <div class="movie-card" onclick="location.href='halls.html?movie=Salaar'">
+            <h2>Salaar</h2>
+            <p>Action, Thriller | 2h 55m</p>
+            <p>₹200</p>
+        </div>
+
+        <div class="movie-card" onclick="location.href='halls.html?movie=Pushpa 2'">
+            <h2>Pushpa 2</h2>
+            <p>Action, Drama | 2h 45m</p>
+            <p>₹250</p>
+        </div>
+
+        <div class="movie-card" onclick="location.href='halls.html?movie=Game Changer'">
+            <h2>Game Changer</h2>
+            <p>Political Thriller | 3h 10m</p>
+            <p>₹300</p>
+        </div>
+        <div class="movie-card" onclick="location.href='halls.html?movie=Mad Square'">
+            <h2>Mad Square</h2>
+            <p>Comedy Drama | 2h 7m</p>
+            <p>₹300</p>
+        </div>
+        <div class="movie-card" onclick="location.href='halls.html?movie=Court'">
+            <h2>Court</h2>
+            <p> Drama | 2h 7m</p>
+            <p>₹300</p>
+        </div>
+        <div class="movie-card" onclick="location.href='halls.html?movie=Court'">
+            <h2>hari Hara Veeramallu</h2>
+            <p> Drama | 2h 7m</p>
+            <p>₹250</p>
+        </div>
+        <div class="movie-card" onclick="location.href='halls.html?movie=Court'">
+            <h2>Dragon</h2>
+            <p> Comedy Drama | 2h 7m</p>
+            <p>₹200</p>
+        </div>
+        <div class="movie-card" onclick="location.href='halls.html?movie=Court'">
+            <h2>Avatar</h2>
+            <p> Adventure Action | 2h 7m</p>
+            <p>₹300</p>
+        </div>
+    </div>
+</body>
+</html>
